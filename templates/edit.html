@@ -1,0 +1,11 @@
+{{define "content"}}
+<h1>Edit card</h1>
+{{if .Error}}<p class="flash err">{{.Error}}</p>{{end}}
+<form method="post" action="/edit" class="card-form">
+  <input type="hidden" name="id" value="{{.Card.ID}}">
+  {{template "cardfields" .}}
+  <label class="check"><input type="checkbox" name="reset"> Reset learning progress (treat as new card)</label>
+  <button class="btn" type="submit">Save</button>
+  <a class="btn ghost" href="/cards">Cancel</a>
+</form>
+{{end}}

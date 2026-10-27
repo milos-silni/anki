@@ -1,0 +1,20 @@
+[Unit]
+Description=Anki (Deutsch Karten) web app
+After=network.target
+
+[Service]
+User=milos
+Group=milos
+WorkingDirectory=/var/lib/anki
+ExecStart=/opt/anki/anki -addr 0.0.0.0:8082 -db /var/lib/anki/cards.json
+# ANKI_PASSWORD=...; root-only file so the password isn't world-readable like this unit
+EnvironmentFile=/etc/anki/anki.env
+Restart=on-failure
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/anki
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

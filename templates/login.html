@@ -1,0 +1,11 @@
+{{define "content"}}
+<h1>Log in</h1>
+{{if .Error}}<p class="flash err">{{.Error}}</p>{{end}}
+<form method="post" action="/login" class="card-form login-form">
+  <input type="hidden" name="next" value="{{.Next}}">
+  <label>Password
+    <input type="password" name="password" autocomplete="current-password" required autofocus>
+  </label>
+  <button class="btn" type="submit">Log in</button>
+</form>
+{{end}}

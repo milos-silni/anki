@@ -1,0 +1,50 @@
+{{define "content"}}
+{{if .Card}}
+<div class="study-head">
+  <span>{{if .Deck}}{{.Deck}}{{else}}All decks{{end}} · {{if eq .Dir "de-en"}}German → English{{else}}English → German{{end}}</span>
+  <span><b class="due">{{.Remaining.Due}}</b> due · <b class="new">{{.Remaining.New}}</b> new</span>
+</div>
+
+<div class="flashcard" id="card">
+  <div class="deck-tag">{{.Card.Deck}}{{if .Card.IsNew}} · new{{end}}</div>
+  {{if eq .Dir "de-en"}}
+    <div class="question" lang="de">{{.Card.Front}} <button class="speak" data-say="{{.Card.Front}}" title="Listen">🔊</button></div>
+  {{else}}
+    <div class="question">{{.Card.Back}}</div>
+  {{end}}
+
+  <div class="answer" id="answer" hidden>
+    <hr>
+    {{if eq .Dir "de-en"}}
+      <div class="solution">{{.Card.Back}}</div>
+    {{else}}
+      <div class="solution" lang="de">{{.Card.Front}} <button class="speak" data-say="{{.Card.Front}}" title="Listen">🔊</button></div>
+    {{end}}
+    {{if .Card.Example}}<p class="example" lang="de">„{{.Card.Example}}“ <button class="speak" data-say="{{.Card.Example}}" title="Listen">🔊</button></p>{{end}}
+    {{if .Card.Notes}}<p class="notes">{{.Card.Notes}}</p>{{end}}
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn big" id="show">Show answer <kbd>Space</kbd></button>
+  <form method="post" action="/review" class="ratings" id="ratings" hidden>
+    <input type="hidden" name="id" value="{{.Card.ID}}">
+    <input type="hidden" name="deck" value="{{.Deck}}">
+    <input type="hidden" name="dir" value="{{.Dir}}">
+    <input type="hidden" name="new" value="{{if .AllowNew}}1{{else}}0{{end}}">
+    {{range .Ratings}}
+      <button name="rating" value="{{.Value}}" class="rate {{.Class}}">
+        <small>{{.Next}}</small>{{.Label}} <kbd>{{.Value}}</kbd>
+      </button>
+    {{end}}
+  </form>
+</div>
+<p class="hint"><a href="/edit?id={{.Card.ID}}">Edit this card</a></p>
+{{else}}
+<div class="empty done">
+  <h1>🎉 Fertig!</h1>
+  <p>No more cards due {{if .Deck}}in <b>{{.Deck}}</b>{{end}} right now. Come back later.</p>
+  <p><a class="btn" href="/">Back to decks</a> <a class="btn ghost" href="/add">Add more words</a></p>
+</div>
+{{end}}
+{{end}}

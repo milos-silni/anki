@@ -1,0 +1,21 @@
+{{define "cardfields"}}
+<label>Deck
+  <input name="deck" list="decks" value="{{with .Card}}{{.Deck}}{{else}}{{.LastDeck}}{{end}}" placeholder="Default">
+  <datalist id="decks">{{range .Decks}}<option value="{{.}}">{{end}}</datalist>
+</label>
+<label>German <small>(word, phrase or sentence — e.g. „der Hund, -e“)</small>
+  <input name="front" lang="de" required autofocus value="{{with .Card}}{{.Front}}{{end}}">
+</label>
+<label>Translation
+  <input name="back" required value="{{with .Card}}{{.Back}}{{end}}">
+</label>
+<label>Example sentence <small>(optional)</small>
+  <textarea name="example" lang="de" rows="2">{{with .Card}}{{.Example}}{{end}}</textarea>
+</label>
+<label>Notes <small>(optional — grammar, plural, irregular forms…)</small>
+  <textarea name="notes" rows="2">{{with .Card}}{{.Notes}}{{end}}</textarea>
+</label>
+<div class="umlauts" title="Insert into the focused field">
+  {{range $c := umlauts}}<button type="button" data-char="{{$c}}">{{$c}}</button>{{end}}
+</div>
+{{end}}

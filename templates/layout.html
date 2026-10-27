@@ -1,0 +1,34 @@
+{{define "layout"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deutsch Karten</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="manifest" href="/static/manifest.json">
+<link rel="icon" href="/static/icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="/static/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222226" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header>
+  <a class="brand" href="/">🇩🇪 Deutsch Karten</a>
+  {{if ne .Page "login"}}
+  <nav>
+    <a href="/" {{if eq .Page "home"}}class="active"{{end}}>Decks</a>
+    <a href="/study" {{if eq .Page "study"}}class="active"{{end}}>Study</a>
+    <a href="/add" {{if eq .Page "add"}}class="active"{{end}}>Add</a>
+    <a href="/import" {{if eq .Page "import"}}class="active"{{end}}>Import text</a>
+    <a href="/cards" {{if eq .Page "cards"}}class="active"{{end}}>Browse</a>
+  </nav>
+  {{if .Auth}}<form method="post" action="/logout" class="logout"><button class="btn ghost small" type="submit">Log out</button></form>{{end}}
+  {{end}}
+</header>
+<main>
+{{template "content" .}}
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>{{end}}

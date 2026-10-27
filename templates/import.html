@@ -1,0 +1,28 @@
+{{define "content"}}
+<h1>Import from text</h1>
+{{if .Imported}}<p class="flash ok">Imported {{.Imported}} card{{if ne .Imported 1}}s{{end}} into „{{if .LastDeck}}{{.LastDeck}}{{else}}Default{{end}}“.</p>{{end}}
+{{if .Skipped}}
+<div class="flash err">
+  Skipped {{len .Skipped}} line(s) that had no translation:
+  <ul>{{range .Skipped}}<li><code>{{.}}</code></li>{{end}}</ul>
+</div>
+{{end}}
+<p>Paste one card per line: <code>German ; translation ; example (optional) ; notes (optional)</code>.<br>
+Separators can be <code>;</code>, <code>|</code>, tab, <code>=</code> or <code> - </code>. Lines starting with <code>#</code> are ignored.</p>
+<form method="post" action="/import" class="card-form">
+  <label>Deck
+    <input name="deck" list="decks" value="{{.LastDeck}}" placeholder="Default">
+    <datalist id="decks">{{range .Decks}}<option value="{{.}}">{{end}}</datalist>
+  </label>
+  <label>Text
+    <textarea name="text" rows="14" lang="de" placeholder="der Hund ; the dog ; Der Hund bellt laut.
+die Katze ; the cat
+laufen = to run
+Wie geht es dir? - How are you?">{{.Text}}</textarea>
+  </label>
+  <div class="umlauts">
+    {{range $c := umlauts}}<button type="button" data-char="{{$c}}">{{$c}}</button>{{end}}
+  </div>
+  <button class="btn" type="submit">Import</button>
+</form>
+{{end}}

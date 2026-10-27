@@ -1,0 +1,33 @@
+{{define "content"}}
+<h1>Your decks</h1>
+{{if .Stats}}
+<div class="summary">
+  <div><b>{{.Total.Due}}</b><span>due</span></div>
+  <div><b>{{.Total.New}}</b><span>new</span></div>
+  <div><b>{{.Total.Total}}</b><span>total</span></div>
+</div>
+<table class="decks">
+  <thead><tr><th>Deck</th><th>Due</th><th>New</th><th>Total</th><th></th></tr></thead>
+  <tbody>
+  {{range .Stats}}
+    <tr>
+      <td><a href="/cards?deck={{.Name}}">{{.Name}}</a></td>
+      <td class="num due">{{.Due}}</td>
+      <td class="num new">{{.New}}</td>
+      <td class="num">{{.Total}}</td>
+      <td class="actions">
+        <a class="btn small" href="/study?deck={{.Name}}">DE → EN</a>
+        <a class="btn small ghost" href="/study?deck={{.Name}}&dir=en-de">EN → DE</a>
+      </td>
+    </tr>
+  {{end}}
+  </tbody>
+</table>
+<p><a class="btn" href="/study">Study all decks</a> <a class="btn ghost" href="/export">Export JSON</a></p>
+{{else}}
+<div class="empty">
+  <p>No cards yet. Start by adding some German words.</p>
+  <p><a class="btn" href="/add">Add a word</a> <a class="btn ghost" href="/import">Paste a word list</a></p>
+</div>
+{{end}}
+{{end}}

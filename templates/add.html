@@ -1,0 +1,9 @@
+{{define "content"}}
+<h1>Add a card</h1>
+{{if .Added}}<p class="flash ok">Added „{{.Added}}“. Add another one!</p>{{end}}
+{{if .Error}}<p class="flash err">{{.Error}}</p>{{end}}
+<form method="post" action="/add" class="card-form">
+  {{template "cardfields" .}}
+  <button class="btn" type="submit">Add card</button>
+</form>
+{{end}}

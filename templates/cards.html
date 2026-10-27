@@ -1,0 +1,39 @@
+{{define "content"}}
+<h1>Browse cards</h1>
+<form method="get" action="/cards" class="filters">
+  <select name="deck" onchange="this.form.submit()">
+    <option value="">All decks</option>
+    {{$cur := .Deck}}{{range .Decks}}<option value="{{.}}" {{if eq . $cur}}selected{{end}}>{{.}}</option>{{end}}
+  </select>
+  <input name="q" value="{{.Q}}" placeholder="Search…" lang="de">
+  <button class="btn small" type="submit">Search</button>
+</form>
+{{if .Cards}}
+<p class="muted">{{len .Cards}} card(s)</p>
+<div class="table-wrap">
+<table class="cards">
+  <thead><tr><th>German</th><th>Translation</th><th>Deck</th><th>Next review</th><th>Interval</th><th></th></tr></thead>
+  <tbody>
+  {{range .Cards}}
+    <tr>
+      <td lang="de"><b>{{.Front}}</b>{{if .Example}}<br><small class="muted">{{.Example}}</small>{{end}}</td>
+      <td>{{.Back}}</td>
+      <td>{{.Deck}}</td>
+      <td>{{if .IsNew}}<span class="new">new</span>{{else}}{{due .Due}}{{end}}</td>
+      <td>{{if .IsNew}}–{{else}}{{interval .Interval}}{{end}}</td>
+      <td class="actions">
+        <a class="btn small ghost" href="/edit?id={{.ID}}">Edit</a>
+        <form method="post" action="/delete" class="inline" data-confirm="Delete „{{.Front}}“?">
+          <input type="hidden" name="id" value="{{.ID}}">
+          <button class="btn small danger" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+  {{end}}
+  </tbody>
+</table>
+</div>
+{{else}}
+<p class="empty">No cards found.</p>
+{{end}}
+{{end}}
